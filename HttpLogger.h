@@ -87,7 +87,7 @@ namespace iv {
 
             // Workers
             for (int i = 0; i < 5; ++i) {
-                m_workers.emplace_back([=]() {
+                m_workers.emplace_back([&, i]() {
                     std::ofstream fs(std::string("worker-") + std::to_string(i) + ".log");
 
                     while (!m_shutting_down) {

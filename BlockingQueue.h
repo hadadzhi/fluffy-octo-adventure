@@ -6,7 +6,7 @@
 
 namespace iv {
     /// Fixed-size, blocking queue with support for flushing
-    template <typename T>
+    template<typename T>
     class BlockingQueue {
     private:
         bool m_flushing;
@@ -18,12 +18,12 @@ namespace iv {
 
     public:
         explicit BlockingQueue(size_t size)
-            : m_size(size), m_flushing(false) {
+                : m_size(size), m_flushing(false) {
         }
 
         /// Blocks until not full or closed
         /// Returns `true` if `e` was succesfully added to the queue
-        template <typename E, typename enable_if = typename std::enable_if<std::is_constructible<T, E>::value>::type>
+        template<typename E, typename enable_if = typename std::enable_if<std::is_constructible<T, E>::value>::type>
         bool put(E&& e) {
             std::unique_lock<std::mutex> l(m_lock);
             m_not_full.wait(l, [&]() { return m_items.size() != m_size || m_flushing; });
@@ -40,7 +40,7 @@ namespace iv {
 
         /// Non-blocking put
         /// Returns `true` if `e` was succesfully added to the queue
-        template <typename E, typename enable_if = typename std::enable_if<std::is_constructible<T, E>::value>::type>
+        template<typename E, typename enable_if = typename std::enable_if<std::is_constructible<T, E>::value>::type>
         bool offer(E&& e) {
             std::unique_lock<std::mutex> l(m_lock);
 
